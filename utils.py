@@ -18,7 +18,7 @@ def read_corpus(fname):
 def process_string(string_):
     """
     Stems string and removes stopwords
-    :param string: String to process (str)
+    :param string_: String to process (str)
     :return: Processed string (list)
     """
     stemmer = PorterStemmer()
