@@ -2,8 +2,7 @@ import re, nltk
 import string
 from nltk import PorterStemmer
 from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords, words
-
+from nltk.corpus import stopwords
 
 def read_corpus(fname):
     """
