@@ -1,5 +1,4 @@
-import re, nltk, json, math
-import string
+import re, nltk, json, math, random, string
 from nltk import PorterStemmer
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
@@ -164,7 +163,7 @@ def naive_bayes_predict(sentence, logprior, loglikelihood):
     probability = 0
     probability += logprior
 
-    for word in sentence:
+    for word in proc_sentence:
         if word in loglikelihood:
             probability += loglikelihood[word]
 
@@ -172,8 +171,9 @@ def naive_bayes_predict(sentence, logprior, loglikelihood):
 
 def test_naive_bayes(test_x, test_y, logprior, loglikelihood, naive_bayes_predict=naive_bayes_predict):
     y_hats = []
-
+    print(f"len of test_x: {len(test_x)}")
     for word in test_x:
+        # print(word)
         if naive_bayes_predict(word, logprior, loglikelihood) > 0:
             y_hat_i = 1
         else:
@@ -186,6 +186,25 @@ def test_naive_bayes(test_x, test_y, logprior, loglikelihood, naive_bayes_predic
     accuracy = 1 - error
 
     return accuracy
+
+def balance_corpus(words, target_reduction_percent=21):
+    """
+    Randomly removes a specified percentage of words from the Shakespeare corpus.
+
+    Args:
+        shakespeare_words (list): List of words from Shakespeare's works
+        target_reduction_percent (float): Percentage of words to remove (default: 21)
+
+    Returns:
+        list: Reduced Shakespeare corpus with approximately 21% fewer words
+    """
+    # Calculate how many words to keep
+    words_to_keep = int(len(words) * (target_reduction_percent) / 100)
+
+    # Randomly sample the required number of words
+    balanced_corpus = random.sample(words, words_to_keep)
+
+    return balanced_corpus
 
 if __name__ == "__main__":
     nltk.download("punkt_tab")

@@ -1,6 +1,9 @@
 import nltk
 import numpy as np
-from utils import read_corpus, process_string, count_freqs, train_naive_bayes, test_naive_bayes, naive_bayes_predict
+from utils import (read_corpus, process_string,
+                   count_freqs, train_naive_bayes,
+                   test_naive_bayes, naive_bayes_predict,
+                   balance_corpus)
 
 # download necessary data
 nltk.download("punkt_tab")
@@ -20,6 +23,7 @@ shsp_file = "/Users/ilya/Desktop/DL_AI/shsp_or_kjb/shsp/Paragraphs.txt"
 shsp = read_corpus(shsp_file)
 processed_words_shsp = process_string(shsp, kjv=False)
 print(processed_words_shsp[:75])
+processed_words_shsp = balance_corpus(processed_words_shsp)
 print("4. Finished processing Shakespeare")
 
 # From KJV: Label 1
@@ -34,7 +38,7 @@ print("6. Finished creating freqs dict")
 N_sh = len(processed_words_shsp)
 N_akjv = len(processed_words_akjv)
 
-print(N_sh, N_akjv)
+print(N_akjv / N_sh)
 
 # divide shakespeare into training and testing
 print("7. Dividing train and test splits")
@@ -60,4 +64,4 @@ print("10. Finished training Naive Bayes")
 
 print(f"11. Shakespeare prediction: {naive_bayes_predict("wherefore art thou Romeo?", logprior, loglikelihood) < 0}")
 print(f"12. Bible Prediction: {naive_bayes_predict("It is easier for a camel to go through the eye of a needle than for a rich man to enter the kingdom of God", logprior, loglikelihood) > 0}")
-# print(f"13. Naive Bayes Accuracy: {test_naive_bayes(test_x, test_y, logprior, loglikelihood)}")
+print(f"13. Naive Bayes Accuracy: {test_naive_bayes(test_x, test_y, logprior, loglikelihood)}")
