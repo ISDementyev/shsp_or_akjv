@@ -2,6 +2,7 @@ import re, nltk, json, math, random, string
 from nltk import PorterStemmer
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
+random.seed(0)
 
 def read_corpus(fname):
     """
